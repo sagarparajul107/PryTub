@@ -1,0 +1,445 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --background: #f1f5f9;
+    --text: #0f172a;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --accent: #8b5cf6;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    padding: 20px;
+    background-color: var(--background);
+    color: var(--text);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding: 2rem 1rem;
+    background: var(--surface);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.disclaimer {
+    background: linear-gradient(to right, #f0f9ff, #e0f2fe);
+    border: none;
+    padding: 1.25rem;
+    margin: 1.5rem auto 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.controls {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.controls::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+}
+
+input {
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.2s;
+    background: #f8fafc;
+}
+
+#frameCount {
+    width: 150px;
+}
+
+#videoUrl {
+    width: 400px;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+button {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s;
+    cursor: pointer;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+}
+
+button:not([disabled]):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+button:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+#grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.video-frame {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.video-frame:hover {
+    transform: scale(1.02);
+}
+
+.video-frame iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.close-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    padding: 0;
+    font-size: 18px;
+}
+
+close-button:hover {
+    background: rgba(220,38,38,0.9);
+    transform: none;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex; /* Changed from none to flex */
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.popup-overlay.hidden {
+    display: none !important;
+}
+
+.popup-dialog {
+    background: var(--surface);
+    padding: 2.5rem;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.popup-dialog h2 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.popup-dialog p {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.popup-dialog button {
+    width: 100%;
+    max-width: 200px;
+}
+
+.popup-dialog .checkbox-group {
+    text-align: left;
+    margin: 2rem 0;
+    background: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.checkbox-group label:hover {
+    background-color: #e2e8f0;
+}
+
+.checkbox-group label:last-child {
+    margin-bottom: 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.checkbox-group span {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    user-select: none;
+}
+
+.checkbox-group .required {
+    color: #dc2626;
+    margin-left: 4px;
+}
+
+.popup-dialog .links {
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.popup-dialog .links a {
+    color: var(--text);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.popup-dialog .links a:hover {
+    opacity: 1;
+}
+
+.popup-dialog button:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .controls {
+        padding: 1rem;
+    }
+    
+    #videoUrl {
+        width: 100%;
+    }
+    
+    input, button {
+        width: 100%;
+    }
+}
+
+.mobile-friendly {
+    width: 90%;
+    max-width: 500px;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.popup-content {
+    padding: 15px;
+}
+
+.mobile-spacing {
+    margin: 20px 0;
+}
+
+.mobile-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+.mobile-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+}
+
+.mobile-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.mobile-links {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.mobile-link {
+    padding: 10px;
+    font-size: 16px;
+    display: inline-block;
+}
+
+@media (max-width: 480px) {
+    .popup-title {
+        font-size: 20px;
+    }
+    
+    .popup-description {
+        font-size: 14px;
+    }
+    
+    .mobile-checkbox {
+        font-size: 14px;
+    }
+}
+
+.disclaimer-section {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+}
+
+.link-separator {
+    margin: 0 8px;
+    color: var(--border);
+}
+
+.popup-description {
+    margin-bottom: 0.75rem;
+}
+
+.popup-description:last-child {
+    margin-bottom: 0;
+}
+
+.popup-dialog.mobile-friendly {
+    width: 90%;
+    max-width: 500px;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    max-height: 90vh; /* Add max height */
+    overflow-y: auto; /* Make content scrollable */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.popup-content {
+    padding: 15px;
+    /* Remove any fixed height constraints */
+}
+
+@media (max-width: 480px) {
+    .popup-dialog.mobile-friendly {
+        margin: 10px;
+        padding: 15px;
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .popup-content {
+        padding: 10px;
+    }
+    
+    /* Ensure bottom padding for scrollable content */
+    .mobile-links {
+        margin-top: 20px;
+        padding-bottom: 15px;
+    }
+}

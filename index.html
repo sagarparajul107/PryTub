@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PryTub - Educational Multi-View Player</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>🎥 PryTub Tool</h1>
+        <div class="disclaimer">
+            <p><strong>⚠️ Educational Tool</strong></p>
+            <p>Developed by Sagar Parajuli • For Educational & Research Purposes</p>
+            <p>We need to strong internet to use this app.</p>
+            </div>
+    </header>
+
+    <div class="controls">
+        <div class="input-group" style="flex: 1; max-width: 150px;">
+            <input type="number" 
+                   id="frameCount" 
+                   min="1" 
+                   placeholder="Frames" 
+                   value="1"
+                   title="Number of frames (1 or more)">
+        </div>
+        <div class="input-group" style="flex: 2;">
+            <input type="text" 
+                   id="videoUrl" 
+                   placeholder="Enter YouTube URL"
+                   title="Paste your YouTube video URL here">
+        </div>
+        <button onclick="createFrames()" style="background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white;">
+            Create Views
+        </button>
+        <button onclick="clearFrames()" style="background-color: #64748b; color: white;">
+            Reset All
+        </button>
+    </div>
+
+    <div id="grid-container"></div>
+
+    <!-- Remove 'hidden' class from the popup div -->
+    <div id="popup" class="popup-overlay">
+        <div class="popup-dialog mobile-friendly">
+            <h2 class="popup-title">⚠️ Important Notice</h2>
+            <div class="popup-content">
+                <div class="disclaimer-section">
+                    <p class="popup-description">This tool is designed for educational and research purposes only.</p>
+                    <p class="popup-description">Please note that this application will play the same video simultaneously across multiple frames.</p>
+                    <p class="popup-description">We are not responsible for any consequences related to your YouTube channel usage.</p>
+                </div>
+                
+                <div class="checkbox-group mobile-spacing">
+                    <label class="mobile-checkbox">
+                        <input type="checkbox" id="UserAgreement">
+                        <span>We are not responsible.</span class="required">*</span>
+                    </label>
+                    <label class="mobile-checkbox">
+                        <input type="checkbox" id="educationalCheck">
+                        <span>I will use this tool exclusively for educational and research purposes<span class="required">*</span></span>
+                    </label>
+                    <label class="mobile-checkbox">
+                        <input type="checkbox" id="termsCheck">
+                        <span>I acknowledge and will comply with YouTube's terms of service<span class="required">*</span></span>
+                    </label>
+                    <label class="mobile-checkbox">
+                        <input type="checkbox" id="ageCheck">
+                        <span>I am 18 years of age or older<span class="required">*</span></span>
+                    </label>
+                    <label class="mobile-checkbox">
+                        <input type="checkbox" id="consentCheckbox">
+                        <span>I understand and accept all terms<span class="required">*</span></span>
+                        </label>
+                </div>
+                
+                <button id="continueButton" 
+                        disabled 
+                        class="mobile-button">
+                    Continue
+                </button>
+                        
+                    </a>
+                    <span class="link-separator">•</span>
+                    <a href="https://sagarparajuli107.com.np/prytub.html" 
+                       target="_blank" 
+                       class="mobile-link">
+                        View Full Terms
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
